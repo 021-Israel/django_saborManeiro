@@ -1,0 +1,54 @@
+{% load static %}
+<header>
+  <div class="logo">
+    <img src="{% static "global/img/header/logotipo.jpg" %}" alt="Logo do
+    Restaurante" />
+  </div>
+  <nav class="menu">
+    <ul>
+      <li><a href="{% url 'home' %}">Home</a></li>
+
+      <li><a href="{% url 'historia' %}">Nossa história</a></li>
+
+      <li><a href="{% url 'galeria' %}">Galeria</a></li>
+
+      <li class="menu_pedido">
+        <a href="{% url 'order' %}">Faça seu pedido</a>
+      </li>
+    </ul>
+  </nav>
+
+  {% if user.is_authenticated %}
+
+  <li class="nav-item">
+    <span class="nav-link active">Usuário: {{ user.get_username }}</span>
+  </li>
+  <li class="nav-item">
+    <form method="post" action="{% url 'logout' %}" style="display: inline">
+      {% csrf_token %}
+      <button
+        type="submit"
+        class="btn btn-link nav-link active"
+        style="
+          padding: 0;
+          border: none;
+          background: none;
+          color: inherit;
+          text-decoration: underline;
+        "
+      >
+        Logout
+      </button>
+    </form>
+  </li>
+  {% else %}
+  <li class="nav-item">
+    <a
+      class="nav-link active"
+      aria-current="page"
+      href="{% url 'login'%}?next={{request.path}}"
+      >Login</a
+    >
+  </li>
+  {% endif %}
+</header>

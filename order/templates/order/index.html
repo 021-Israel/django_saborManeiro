@@ -1,0 +1,167 @@
+{% extends "global/base.html" %}
+
+
+{% block  main%}
+
+{% load static %}
+<link rel="stylesheet" href='{% static "global/css/order.css" %}'>
+
+<main>
+    <div class="container">
+      <!-- Categorias -->
+      <div class="categories">
+        <button class="category-btn active">Todos</button>
+        <button class="category-btn">Entradas</button>
+        <button class="category-btn">Pratos Principais</button>
+        <button class="category-btn">Bebidas</button>
+        <button class="category-btn">Sobremesas</button>
+        <button class="category-btn">Combos</button>
+      </div>
+
+      <!-- Itens do Menu -->
+      <div class="menu-grid">
+        <!-- Item 1 -->
+        <div class="menu-item">
+          <img
+            src="https://conteudo.imguol.com.br/c/entretenimento/4f/2022/05/03/hamburguer-1651610679144_v2_4x3.jpg"
+            alt="Hamburguer"
+            class="item-image"
+          />
+          <div class="item-info">
+            <h3 class="item-title">Hamburger</h3>
+            <p class="item-description">
+              Pão, hambúrguer 180g, queijo, alface, tomate e molho especial.
+            </p>
+            <div class="item-footer">
+              <span class="item-price">R$ 24,90</span>
+              <button class="add-to-cart">Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="menu-item">
+          <img
+            src="https://rossopizza.com.br/salao/wp-content/uploads/2019/09/istock-181175167.jpg"
+            alt="Pizza"
+            class="item-image"
+          />
+          <div class="item-info">
+            <h3 class="item-title">Pizza Margherita</h3>
+            <p class="item-description">
+              Molho de tomate, mussarela, tomate fresco e manjericão.
+            </p>
+            <div class="item-footer">
+              <span class="item-price">R$ 42,90</span>
+              <button class="add-to-cart">Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="menu-item">
+          <img
+            src="https://www.unileverfoodsolutions.com.br/dam/global-ufs/mcos/SLA/calcmenu/recipes/BR-recipes/chicken-&-other-poultry-dishes/strogonoff-de-frango/main-header.jpg"
+            alt="Salada"
+            class="item-image"
+          />
+          <div class="item-info">
+            <h3 class="item-title">Salada Caesar</h3>
+            <p class="item-description">
+              Alface romana, croutons, parmesão e molho caesar.
+            </p>
+            <div class="item-footer">
+              <span class="item-price">R$ 18,50</span>
+              <button class="add-to-cart">Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="menu-item">
+          <img
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEioLjCIniNsQfeIEJ_E26o19EzRyRxKr4J3pw9tCv9_WlxPSACMDdC7K9DKWD3b9B5R6kn1q93TU20kw3wYUmxD5er-s4AzfzAtM-SYFXPcah9Pad7hwKr11_NGZcu-faKfkaiKFy2K8gdM/s640/feijoada.jpg"
+            alt="Sorvete"
+            class="item-image"
+          />
+          <div class="item-info">
+            <h3 class="item-title">Sorvete Artesanal</h3>
+            <p class="item-description">
+              Sorvete de baunilha com calda de chocolate e granulado.
+            </p>
+            <div class="item-footer">
+              <span class="item-price">R$ 12,90</span>
+              <button class="add-to-cart">Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="menu-item">
+          <img
+            src="https://paroquiasantaclaradf.com.br/wp-content/uploads/2021/07/Design-sem-nome-10.png    "
+            alt="Refrigerante"
+            class="item-image"
+          />
+          <div class="item-info">
+            <h3 class="item-title">Refrigerante Lata</h3>
+            <p class="item-description">
+              Lata 350ml - sabores: Coca-Cola, Guaraná, Fanta ou Sprite.
+            </p>
+            <div class="item-footer">
+              <span class="item-price">R$ 6,50</span>
+              <button class="add-to-cart">Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="menu-item">
+          <img
+            src="https://polosulsc.com.br/wp-content/uploads/2017/09/Tipos-de-picol%C3%A9-de-chocolate-1.jpg"
+            alt="Combo"
+            class="item-image"
+          />
+          <div class="item-info">
+            <h3 class="item-title">Combo Família</h3>
+            <p class="item-description">
+              2 pizzas grandes + 2 refrigerantes 2L + 1 sobremesa.
+            </p>
+            <div class="item-footer">
+              <span class="item-price">R$ 89,90</span>
+              <button class="add-to-cart">Adicionar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carrinho de Compras -->
+    <div class="cart-container">
+      <div class="cart-btn">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+      </div>
+    </div>
+    <div class="cart-modal" id="cartModal">
+      <div class="cart-modal-content">
+        <div class="cart-modal-header">
+          <h3>Seu Carrinho</h3>
+          <button class="close-modal">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+          <!-- Itens serão adicionados dinamicamente aqui -->
+          <div class="empty-cart-message">Seu carrinho está vazio</div>
+        </div>
+        <div class="cart-summary">
+          <div class="cart-total">
+            <span>Total:</span>
+            <span class="total-price">R$ 0,00</span>
+          </div>
+          <button class="checkout-btn">Finalizar Pedido</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="{% static 'global/js/script.js' %}"></script>
+{% endblock main%}

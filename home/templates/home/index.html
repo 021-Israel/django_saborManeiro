@@ -1,0 +1,92 @@
+{% extends "global/base.html" %}
+
+
+{% block  main%}
+
+{% load static %}
+<link rel="stylesheet" href='{% static "global/css/home.css" %}'>
+
+<main>
+    <section class="central">
+      <div class="img-main">
+        <img src="{% static "global/img/main/main.jpg" %}" alt="Imagem banner" />
+
+        <nav class="link-hero">
+          <ul>
+            <li><a href="{% url 'historia' %}">Nossa história</a></li>
+
+            <li><a href="{% url 'order' %}">Faça seu pedido</a></li>
+
+            <li><a href="{% url 'galeria' %}">Galeria</a></li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+    <section class="local">
+      <h3>
+        Localizado em Ipanema, no Rio de Janeiro, o Sabor Maneiro celebra
+        sabores com pratos irresistíveis. Também servimos cerveja, vinho e
+        bebidas.
+      </h3>
+
+      <a href="{% url "reservar" %}">
+        <button class="local-button">Faça sua reserva</button>
+      </a>
+    </section>
+    <section class="central-ilustre-bebidas">
+      <div class="central-ilustre-bebidas-texto">
+        <h2>O bobó de camarão é um prato típico da culinária baiana.</h2>
+
+        <p>
+          É feito com camarões, creme de aipim, leite de coco e dendê,
+          formando um caldo cremoso e aromático.
+        </p>
+      </div>
+
+      <div class="central-ilustre-bebidas-imagem">
+        <img src="{% static "global/img/ilustre/bob_de_camarao.jpg" %}" alt="Bobó de camarão" />
+      </div>
+    </section>
+    <section class="central-ilustre-banner">
+      <img src="{% static "global/img/ilustre/culinária.jpg" %}" alt="Imagem de comidas" />
+    </section>
+
+    <section class="central-ilustre-bebidas">
+      <div class="central-ilustre-bebidas-imagem">
+        <img src="{% static "global/img/ilustre/Vinho-chardonnay.jpg" %}" alt="Imagem de vinho" />
+      </div>
+      <div class="central-ilustre-bebidas-texto">
+        <h2>
+          O refinado Chardonnay realça os sabores intensos do nosso bobó de
+          camarão, criando uma experiência gastronômica marcante e harmoniosa.
+        </h2>
+        <p>
+          Nossa carta inclui ainda cervejas artesanais selecionadas, vinhos
+          nacionais e internacionais, coquetéis exclusivos e opções não
+          alcoólicas cuidadosamente elaboradas.
+        </p>
+      </div>
+    </section>
+
+    <section class="central-ilustre-lugar">
+      <div class="central-ilustre-lugar-texto">
+        <h2>Rua Maria Quitéria 452</h2>
+        <h2>Ipanema, Rio de Janeiro</h2>
+        <a href="contato.html">
+          <button class="local-button">
+            <a
+              href="https://maps.app.goo.gl/eCjmw8xhri2Y3ZXL6"
+              target="_blank"
+              >Como chegar</a
+            >
+          </button>
+        </a>
+      </div>
+
+      <div class="central-ilustre-funcionamento">
+        <h3>De segunda a quinta-feira Das 12h às 22h</h3>
+        <h3>De sexta-feira a domingo Das 12h às 23h</h3>
+      </div>
+    </section>
+  </main>
+{% endblock main %}

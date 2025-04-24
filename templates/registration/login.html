@@ -1,0 +1,84 @@
+{% block main %}
+{% load static %}
+<link rel="stylesheet" href='{% static "global/css/home.css" %}'>
+
+
+  {% if form.errors %}
+    <p>Seu nome de usuário e senha não correspondem. Por favor, tente novamente.</p>
+  {% endif %}
+
+
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>Sua conta não tem acesso a esta página. Para prosseguir,
+        faça login com uma conta que tenha acesso.</p>
+    {% else %}
+      <p>Faça login para ver esta página.</p>
+    {% endif %}
+  {% endif %}
+
+
+  <form method="post" action="{% url 'login' %}" class="form-control">
+    {% csrf_token %}
+    <table>
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
+
+
+    {# Supõe que você configure a visualização password_reset em seu URLconf #}
+    <p><a href="{% url 'password_reset' %}">Esqueceu a senha?</a></p>
+   
+  </form>
+
+
+ 
+{% endblock main %}
+
+<!-- <!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>login</title>
+  </head>
+  <body>
+    <main class="forms-login">
+      <form>
+        <h1>Login</h1>
+        <div class="input-box">
+          <input placeholder="usuário" type="email" />
+          <i class="bx bxs-user"></i>
+        </div>
+        <div class="input-box">
+          <input placeholder="senha" type="password" />
+          <i class="bx bxs-lock-alt"></i>
+        </div>
+        
+        <div class="check">
+          <label for="">
+            <input type="checkbox" />
+            Lembrar minha senha
+            <p><a href="{% url 'password_reset' %}">Esqueceu a senha?</a></p>
+          </label>
+        </div>
+        
+        <div class="registre">
+          <p>Não tem uma conta? <a href="#">Cadastre-se</a></p>
+        </div>
+      </form>
+    </main>
+  </body>
+</html> -->

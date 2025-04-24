@@ -1,0 +1,32 @@
+@import url(style.css);
+
+main{
+    border-bottom: 2px solid #f7f785;
+    background-color: #632f16;
+    color: #f7f785;
+    .central-history img{
+        width: 100%;
+        height: 70vh;
+        object-fit: cover; 
+    }
+    
+}
+
+.text-history{
+    justify-items: center;
+    text-align: center;
+    
+    
+}
+
+.text-history h1{
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.text-history p{
+    width: 1070px;
+    padding-top: 25px;
+    font-size: 25px;
+
+}

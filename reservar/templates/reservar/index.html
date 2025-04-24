@@ -1,0 +1,62 @@
+{% extends "global/base.html" %}
+
+
+{% block  main%}
+
+{% load static %}
+<link rel="stylesheet" href='{% static "global/css/reservar.css" %}'>
+
+<main>
+    <div class="form-container">
+      <h2>Reserva</h2>
+      <form action="{% url 'gravar' %}" method="post"> 
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="nome"
+            >Nome <span style="color: red">(obrigatório)</span></label
+          >
+          <input type="text" id="nome" name="nome" required />
+        </div>
+        <div class="form-group">
+          <label for="sobrenome">Sobrenome</label>
+          <input type="text" id="sobrenome" name="sobrenome" />
+        </div>
+        <div class="form-group">
+          <label for="telefone"
+            >Telefone <span style="color: red">*</span></label
+          >
+          <input type="tel" id="telefone" name="telefone" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Endereço de e-mail</label>
+          <input type="email" id="email" name="email" />
+        </div>
+        <div class="form-group">
+          <label for="data"
+            >Data <span style="color: red">*</span>
+            <small>(dd/mm/aaaa)</small></label
+          >
+          <input type="date" id="data" name="data" required />
+        </div>
+        <div class="form-group">
+          <label for="convidados"
+            >Número de convidados <span style="color: red">*</span></label
+          >
+          <input
+            type="number"
+            id="convidados"
+            name="convidados"
+            min="1"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="comentarios">Comentários</label>
+          <textarea id="comentarios" name="comentarios"></textarea>
+        </div>
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+    </div>
+  </main>
+{% endblock main %}

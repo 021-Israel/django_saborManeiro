@@ -15,40 +15,35 @@
       <li class="menu_pedido">
         <a href="{% url 'order' %}">Faça seu pedido</a>
       </li>
+
+      {% if user.is_authenticated %}
+
+      <li class="nav-item">
+        <span class="nav-link active"><i class="fa-solid fa-user"></i>{{ user.get_username }}</span>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button
+            type="submit"
+            class="btn btn-link nav-link active">
+            Logout
+          </button>
+        </form>
+      </li>
+      <li class="nav-item">
+        
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          aria-current="page"
+          href="{% url 'login'%}?next={{request.path}}"
+          >Login</a
+        >
+      </li>
+      {% endif %}
     </ul>
   </nav>
 
-  {% if user.is_authenticated %}
-
-  <li class="nav-item">
-    <span class="nav-link active">Usuário: {{ user.get_username }}</span>
-  </li>
-  <li class="nav-item">
-    <form method="post" action="{% url 'logout' %}" style="display: inline">
-      {% csrf_token %}
-      <button
-        type="submit"
-        class="btn btn-link nav-link active"
-        style="
-          padding: 0;
-          border: none;
-          background: none;
-          color: inherit;
-          text-decoration: underline;
-        "
-      >
-        Logout
-      </button>
-    </form>
-  </li>
-  {% else %}
-  <li class="nav-item">
-    <a
-      class="nav-link active"
-      aria-current="page"
-      href="{% url 'login'%}?next={{request.path}}"
-      >Login</a
-    >
-  </li>
-  {% endif %}
+ 
 </header>

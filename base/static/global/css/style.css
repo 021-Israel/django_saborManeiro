@@ -24,6 +24,10 @@ header {
     ul li:nth-last-child(1) {
       padding-right: 0px;
     }
+    ul{
+      display: flex;
+      align-items: center;
+    }
     ul li {
       text-decoration: none;
       display: inline;
@@ -34,6 +38,22 @@ header {
         font-size: 22px;
         color: #f7f785;
       }
+    }
+  }
+  .nav-item{
+    display: flex;
+    flex-direction: column;
+    button{
+      background-color: #f7f785;
+      color: #632f16;
+      border-radius: 4px;
+    }
+    span{
+      color: #f7f785;
+    }
+    span, button{
+      padding: 10px 20px;
+
     }
   }
 }

@@ -43,16 +43,20 @@ header {
   .nav-item{
     display: flex;
     flex-direction: column;
+    text-align: center;
     button{
       background-color: #f7f785;
       color: #632f16;
-      border-radius: 4px;
+      border-radius: 20px;
     }
     span{
       color: #f7f785;
     }
+    button{
+      cursor: pointer;
+    }
     span, button{
-      padding: 10px 20px;
+      padding: 10px 10px;
 
     }
   }

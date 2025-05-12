@@ -1,10 +1,10 @@
 @import url(style.css);
 
 main {
-    border-bottom: 2px solid #f7f785;
+    border-bottom: 2px solid #d4c17a;
     background-color: #632f16;
-    color: #f7f785;
-    padding: 0 20px;
+    color: #d4c17a;
+
 }
 
 .central-history img {

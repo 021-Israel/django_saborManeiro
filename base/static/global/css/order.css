@@ -2,7 +2,7 @@
 
 /* Modal do Carrinho */
 header{
-  border-bottom: 3px solid #f7f785 ;
+  border-bottom: 3px solid #d4c17a ;
 }
 
 body {
@@ -243,7 +243,7 @@ body {
   width: 100%;
   padding: 12px;
   background-color:#632f16;
-  color: #f7f785;
+  color: #d4c17a;
   border: none;
   border-radius: 4px;
   font-weight: bold;
@@ -252,7 +252,8 @@ body {
 }
 
 .checkout-btn:hover {
-  background-color: #0d2a52;
+  background-color: #d4c17a;
+  color: #632f16;
 }
 .cart-container i{
   color: #ddd;
@@ -266,5 +267,5 @@ body {
 }
 
 footer{
-  border-top: 2px solid #f7f785;
+  border-top: 2px solid #d4c17a;
 }

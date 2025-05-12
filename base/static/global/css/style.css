@@ -36,30 +36,52 @@ header {
       a {
         text-decoration: none;
         font-size: 22px;
-        color: #f7f785;
+        color: #d4c17a;
       }
     }
   }
-  .nav-item{
+  .nav-item {
     display: flex;
     flex-direction: column;
+    align-items: center;
     text-align: center;
-    button{
-      background-color: #f7f785;
-      color: #632f16;
-      border-radius: 20px;
-    }
-    span{
-      color: #f7f785;
-    }
-    button{
-      cursor: pointer;
-    }
-    span, button{
-      padding: 10px 10px;
-
-    }
+    gap: 10px;
+    margin: 10px 0;
   }
+  
+  .nav-item span {
+    color: #d4c17a;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  .nav-item button {
+    background-color: #d4c17a;
+    color: #632f16;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .nav-item button:hover {
+    background-color: #e0e06d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .nav-item button i {
+    font-size: 16px;
+  }
+  
 }
 
 body {
@@ -70,7 +92,7 @@ footer {
   background-color: #632f16;
   display: flex;
   justify-content: space-around;
-  color: #f7f785;
+  color: #d4c17a;
   padding: 50px 0px;
 
   .footer-contact {
@@ -86,7 +108,7 @@ footer {
     }
   }
   .footer-contact a{
-    color: #f7f785;
+    color: #d4c17a;
     font-size: 22px;
   }
   .name {

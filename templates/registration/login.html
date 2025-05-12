@@ -1,84 +1,78 @@
-{% block main %}
+{% extends "global/base.html" %}
+{% block main %} 
+{% if form.errors %}
+
+{% endif %}
+
+
+{% if next %}
+{% if user.is_authenticated %}
+  <p>Sua conta não tem acesso a esta página. Para prosseguir,
+    faça login com uma conta que tenha acesso.</p>
+
+{% endif %}
+{% endif %}
+
 {% load static %}
-<link rel="stylesheet" href='{% static "global/css/home.css" %}'>
+<link rel="stylesheet" href='{% static "global/css/login.css" %}' />
+<link
+href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+rel="stylesheet"
+/>
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+/>
+  <main>
+    <div class="container" id="container">
+      <div class="form-container sign-up">
+        <form method="post" action="{% url 'criarUser' %}">
+          {% csrf_token %}
+
+          <h1>Crie uma conta</h1>
+          
+          <span> Use o seu email e nome de usuario para se registrar.</span>
+          <input type="text" name="name" placeholder="Nome" />
+          <input type="email" name="email" placeholder="Email" />
+          <input type="password" name="password" placeholder="Senha" />
+          <button class"criar">Registrar</button>
+        </form>
+      </div>
+      <div class="form-container sign-in">
+        <form  method="post" action="{% url 'login' %}" class="form-control">
+          {% csrf_token %}
+          <h1>Acessar</h1>
+          <span>Use seu nome de usuario e senha para acessar ao site.</span>
+          <input name="username" placeholder="usuário" type="text" required />
+          <input name="password" placeholder="senha" type="password" required />
+          <a href="{% url 'password_reset' %}">Esqueceu sua senha?</a>
+          <button type="submit" value="login" class="login">Login</button>
+          <input type="hidden" name="next" value="{{ next }}" />
 
 
-  {% if form.errors %}
-    <p>Seu nome de usuário e senha não correspondem. Por favor, tente novamente.</p>
-  {% endif %}
 
+        </form>
+      </div>
+      <div class="toggle-container">
+        <div class="toggle">
+          <div class="toggle-panel toggle-left">
+            <h1>Bem-vindo de volta!</h1>
+            <p>Acesse sua conta para usar todos os recursos do site.</p>
+            <button class="hidden" id="login">Entrar</button>
+          </div>
+          <div class="toggle-panel toggle-right">
+            <h1>Olá, Amigo!</h1>
+            <p>
+              Registre-se para acessar todos as ferramentas do site.
+            </p>
+            <button class="hidden" id="register">Cadastrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  {% if next %}
-    {% if user.is_authenticated %}
-      <p>Sua conta não tem acesso a esta página. Para prosseguir,
-        faça login com uma conta que tenha acesso.</p>
-    {% else %}
-      <p>Faça login para ver esta página.</p>
-    {% endif %}
-  {% endif %}
+    <script src="{% static 'global/js/script.js' %}"></script>
+  </main>
 
-
-  <form method="post" action="{% url 'login' %}" class="form-control">
-    {% csrf_token %}
-    <table>
-      <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next }}" />
-
-
-    {# Supõe que você configure a visualização password_reset em seu URLconf #}
-    <p><a href="{% url 'password_reset' %}">Esqueceu a senha?</a></p>
-   
-  </form>
-
-
- 
 {% endblock main %}
 
-<!-- <!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>login</title>
-  </head>
-  <body>
-    <main class="forms-login">
-      <form>
-        <h1>Login</h1>
-        <div class="input-box">
-          <input placeholder="usuário" type="email" />
-          <i class="bx bxs-user"></i>
-        </div>
-        <div class="input-box">
-          <input placeholder="senha" type="password" />
-          <i class="bx bxs-lock-alt"></i>
-        </div>
-        
-        <div class="check">
-          <label for="">
-            <input type="checkbox" />
-            Lembrar minha senha
-            <p><a href="{% url 'password_reset' %}">Esqueceu a senha?</a></p>
-          </label>
-        </div>
-        
-        <div class="registre">
-          <p>Não tem uma conta? <a href="#">Cadastre-se</a></p>
-        </div>
-      </form>
-    </main>
-  </body>
-</html> -->

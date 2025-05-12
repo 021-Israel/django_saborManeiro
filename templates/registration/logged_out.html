@@ -1,5 +1,35 @@
-
-{% block main %}
-  <p>Desconectado!</p>
-  <a href="{% url 'login'%}">Clique aqui para fazer login novamente.</a>
+{% extends 'global/base.html' %} 
+{% block main %} 
+{% load static %}
+<link rel="stylesheet" href='{% static "global/css/login.css" %}' />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<main>
+  <script>
+    Swal.fire({
+      title: "<strong>Você foi desconectado</strong>",
+      icon: "info",
+      html: `
+      <b>Sua sessão foi finalizada.</b><br>
+      Deseja ir para a página inicial ou fazer login novamente?
+    `,
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText: `
+      <i class="fa fa-home"></i> Página Inicial
+    `,
+      confirmButtonAriaLabel: "Ir para página inicial",
+      cancelButtonText: `
+      <i class="fa fa-sign-in-alt"></i> Login
+    `,
+      cancelButtonAriaLabel: "Fazer login",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "{% url 'home' %}";
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        window.location.href = "{% url 'login' %}";
+      }
+    });
+  </script>
+</main>
 {% endblock %}

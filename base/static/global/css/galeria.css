@@ -5,13 +5,13 @@ body {
     background-color: #632f16;
 }
 main{
-    border-top:3px solid #f7f785;
-    border-bottom:3px solid #f7f785;
+    border-top:3px solid #d4c17a;
+    border-bottom:3px solid #d4c17a;
 }
 
 .container {
     padding: 20px 0;
-    border-top: px solid #f7f785;
+    border-top: px solid #d4c17a;
     max-width: 1600px;
     margin: 0 auto;
 }

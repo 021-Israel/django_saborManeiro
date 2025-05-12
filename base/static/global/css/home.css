@@ -25,7 +25,7 @@ nav.link-hero {
       color: white;
       font-size: 3.5rem;
       text-shadow: 0 0 2px #fff,
-      0 0 5px #f7f785,
+      0 0 5px #d4c17a,
       0 0 10px rgba(99, 47, 22, 0.7);
       text-decoration: underline;
       text-decoration-thickness: 3px;
@@ -56,13 +56,13 @@ nav.link-hero {
   letter-spacing: 1px;
   font-weight: 400;
   font-size: 32px;
-  color: #f7f785;
+  color: #d4c17a;
 }
 .local .local-button {
   background-color: transparent;
-  color: #f7f785;
+  color: #d4c17a;
   margin-top: 28px;
-  border: 2px solid #f7f785;
+  border: 2px solid #d4c17a;
   border-radius: 4px;
   padding: 20px 20px;
   font-size: 24px;
@@ -71,12 +71,12 @@ nav.link-hero {
 }
 
 .local-button:hover {
-  background-color: #f7f785;
+  background-color: #d4c17a;
   color: #632f16;
 }
 
 .central-ilustre-banner {
-  background-color: #f7f785;
+  background-color: #d4c17a;
   height: 60vh;
   border-top: 15px solid #632f16;
   border-bottom: 15px solid #632f16;
@@ -90,7 +90,7 @@ nav.link-hero {
   display: flex;
   text-align: start;
   justify-content: space-around;
-  background-color: #f7f785;
+  background-color: #d4c17a;
   padding: 24px 0;
 
   .central-ilustre-bebidas-texto {
@@ -129,15 +129,15 @@ nav.link-hero {
 .central-ilustre-lugar-texto {
   font-size: 25px;
   padding: 50px 100px;
-  color: #f7f785;
+  color: #d4c17a;
   h2 {
     font-weight: 500;
   }
   .local-button {
     background-color: transparent;
-    color: #f7f785;
+    color: #d4c17a;
     margin-top: 28px;
-    border: 2px solid #f7f785;
+    border: 2px solid #d4c17a;
     border-radius: 4px;
     padding: 20px 20px;
     font-size: 24px;
@@ -145,12 +145,12 @@ nav.link-hero {
     transition: background-color 0.6s, color 0.3s;
     a {
       text-decoration: none;
-      color: #f7f785;
+      color: #d4c17a;
     }
   }
 
   .local-button:hover {
-    background-color: #f7f785;
+    background-color: #d4c17a;
     a {
       color: #632f16;
     }
@@ -161,8 +161,8 @@ nav.link-hero {
 
   justify-content: center;
   padding: 10px;
-  color: #f7f785;
-  border-bottom: 3px solid #f7f785;
+  color: #d4c17a;
+  border-bottom: 3px solid #d4c17a;
 
   h3 {
     width: 24vw;

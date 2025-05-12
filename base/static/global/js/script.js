@@ -160,3 +160,13 @@ registerBtn.addEventListener("click", () => {
 loginBtn.addEventListener("click", () => {
   container.classList.remove("active");
 });
+
+
+// Troca de categoria
+document.querySelectorAll('.category-btn').forEach(button => {
+    button.addEventListener('click', function () {
+      const categoria = this.dataset.categoria;
+      const url = categoria ? `?categoria=${categoria}` : window.location.pathname;
+      window.location.href = url;
+    });
+  });

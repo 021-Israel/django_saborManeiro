@@ -11,167 +11,41 @@
     <div class="container">
       <!-- Categorias -->
       <div class="categories">
-        <button class="category-btn active">Todos</button>
-        <button class="category-btn">Entradas</button>
-        <button class="category-btn">Pratos Principais</button>
-        <button class="category-btn">Bebidas</button>
-        <button class="category-btn">Sobremesas</button>
-        <button class="category-btn">Combos</button>
+        <a href="?categoria=" class="category-btn active">Todos</a>
+        <a href="?categoria=LAN" class="category-btn">Lanches</a>
+        <a href="?categoria=PTP" class="category-btn">Pratos Principais</button>
+        <a href="?categoria=BEB" class="category-btn">Bebidas</button>
+        <a href="?categoria=SOB" class="category-btn">Sobremesas</button>
+        <a href="?categoria=COM" class="category-btn">Combos</button>
       </div>
 
+
+      
       <!-- Itens do Menu -->
       <div class="menu-grid">
+        {% for produto in produtos %}
         <!-- Item 1 -->
         <div class="menu-item">
           <img
-            src="https://img.freepik.com/fotos-gratis/vista-de-um-delicioso-hamburguer-com-bolinhos-e-queijo_23-2150887834.jpg?t=st=1745601754~exp=1745605354~hmac=9fb0aea578e98a64e37eaa6d3835c9affbe0492005e009fec8b6a6f6a33d254c&w=996"
-            alt="Hamburguer"
+            src="{{ produto.foto_produto_url }}"
+            alt="{{ produto.nome_produto }}"
             class="item-image"
           />
           <div class="item-info">
-            <h3 class="item-title">Hamburger</h3>
-            <p class="item-description">
-              Pão, hambúrguer 180g, queijo, alface, tomate e molho especial.
+            <h3 class="item-title">{{ produto.nome_produto }}</h3>
+            <p class="{{ produto.desc_produto }}">
+              {{ produto.desc_produto }}
             </p>
             <div class="item-footer">
-              <span class="item-price">R$ 14,90</span>
+              <span class="item-price">{{produto.preco_produto}}</span>
               <button class="add-to-cart">Adicionar</button>
             </div>
           </div>
         </div>
-
-        <!-- Item 2 -->
-        <div class="menu-item">
-          <img
-            src="https://img.freepik.com/fotos-gratis/uma-apresentacao-epica-de-comida-deliciosa_23-2151888648.jpg?t=st=1745609270~exp=1745612870~hmac=34003a48465989f9e0620f247e86d3792335cb0ec71f11efb65be476a1692de1&w=996"
-            alt="Pizza"
-            class="item-image"
-          />
-          <div class="item-info">
-            <h3 class="item-title">Pizza Margherita</h3>
-            <p class="item-description">
-              Molho de tomate, mussarela, tomate fresco e manjericão.
-            </p>
-            <div class="item-footer">
-              <span class="item-price">R$ 42,90</span>
-              <button class="add-to-cart">Adicionar</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 3 -->
-        <div class="menu-item">
-          <img
-            src="https://www.unileverfoodsolutions.com.br/dam/global-ufs/mcos/SLA/calcmenu/recipes/BR-recipes/chicken-&-other-poultry-dishes/strogonoff-de-frango/main-header.jpg"
-            alt="Salada"
-            class="item-image"
-          />
-          <div class="item-info">
-            <h3 class="item-title">Strogonoff</h3>
-            <p class="item-description">
-            frango, champignon e molho de creme de leite, clássico e saboroso.
-            </p>
-            <div class="item-footer">
-              <span class="item-price">R$ 20,50</span>
-              <button class="add-to-cart">Adicionar</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 4 -->
-        <div class="menu-item">
-          <img
-            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEioLjCIniNsQfeIEJ_E26o19EzRyRxKr4J3pw9tCv9_WlxPSACMDdC7K9DKWD3b9B5R6kn1q93TU20kw3wYUmxD5er-s4AzfzAtM-SYFXPcah9Pad7hwKr11_NGZcu-faKfkaiKFy2K8gdM/s640/feijoada.jpg"
-            alt="Sorvete"
-            class="item-image"
-          />
-          <div class="item-info">
-            <h3 class="item-title">Feijoada</h3>
-            <p class="item-description">
-              Feijão preto, linguiça, costela e bacon, prato brasileiro saboroso e tradicional.
-            </p>
-            <div class="item-footer">
-              <span class="item-price">R$ 22,90</span>
-              <button class="add-to-cart">Adicionar</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 5 -->
-        <div class="menu-item">
-          <img
-            src="https://paroquiasantaclaradf.com.br/wp-content/uploads/2021/07/Design-sem-nome-10.png    "
-            alt="Refrigerante"
-            class="item-image"
-          />
-          <div class="item-info">
-            <h3 class="item-title">Refrigerante Lata</h3>
-            <p class="item-description">
-              Lata 350ml - sabores: Coca-Cola, Guaraná, Fanta ou Sprite.
-            </p>
-            <div class="item-footer">
-              <span class="item-price">R$ 6,50</span>
-              <button class="add-to-cart">Adicionar</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 6 -->
-        <div class="menu-item">
-          <img
-            src="https://polosulsc.com.br/wp-content/uploads/2017/09/Tipos-de-picol%C3%A9-de-chocolate-1.jpg"
-            alt="Combo"
-            class="item-image"
-          />
-          <div class="item-info">
-            <h3 class="item-title">Picolé</h3>
-            <p class="item-description">
-               gelado, crocante e cremoso, com chocolate, morango ou doce de leite.
-            </p>
-            <div class="item-footer">
-              <span class="item-price">R$ 15,90</span>
-              <button class="add-to-cart">Adicionar</button>
-            </div>
-          </div>
-        </div>
-                <!-- Item 7 -->
-        <div class="menu-item">
-          <img
-            src="https://img.freepik.com/fotos-gratis/deliciosa-refeicao-de-camarao-de-angulo-alto_23-2148771278.jpg?t=st=1747009745~exp=1747013345~hmac=89605fa4df12c1330034ac5966bce15c36815c41a8dbea1c211a7863454c2b8b&w=740 "
-            alt="Refrigerante"
-            class="item-image"
-          />
-          <div class="item-info">
-            <h3 class="item-title">Bobó de Camarão</h3>
-            <p class="item-description">
-              Lata 350ml - sabores: Coca-Cola, Guaraná, Fanta ou Sprite.
-            </p>
-            <div class="item-footer">
-              <span class="item-price">R$  25,50</span>
-              <button class="add-to-cart">Adicionar</button>
-            </div>
-          </div>
-        </div>
-                <!-- Item 8 -->
-        <div class="menu-item">
-          <img
-            src="https://img.freepik.com/fotos-gratis/copo-de-vinho-tinto-no-balcao-de-bar_107420-65844.jpg?t=st=1747010330~exp=1747013930~hmac=a66c16a2abc921ace38f53332e281dbaac04ed28fc2f2a3722be771dcba4225d&w=740 "
-            alt="Refrigerante"
-            class="item-image"
-          />
-          <div class="item-info">
-            <h3 class="item-title">Vinho Suave</h3>
-            <p class="item-description">
-              Lata 350ml - sabores: Coca-Cola, Guaraná, Fanta ou Sprite.
-            </p>
-            <div class="item-footer">
-              <span class="item-price">R$ 30,00</span>
-              <button class="add-to-cart">Adicionar</button>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
+        
       </div>
-    </div>
+        
 
     <!-- Carrinho de Compras -->
     <div class="cart-container">
@@ -193,7 +67,7 @@
         <div class="cart-summary">
           <div class="cart-total">
             <span>Total:</span>
-            <span class="total-price">R$ 0,00</span>
+            <span class="total-price">{{ produto.desc_produto }}</span>
           </div>
           <button class="checkout-btn">Finalizar Pedido</button>
         </div>

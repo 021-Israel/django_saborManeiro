@@ -1,0 +1,43 @@
+{% extends "global/base.html" %}
+
+{% block main %}
+<link rel="stylesheet" href='{% static "global/css/pedido_sucesso.css" %}'>
+
+<div class="container pedido-sucesso">
+    <h2>Pedido Realizado com Sucesso!</h2>
+    <div class="pedido-info">
+        <p><strong>Número do Pedido:</strong> #{{ pedido.id }}</p>
+        <p><strong>Data:</strong> {{ pedido.data_pedido|date:"d/m/Y H:i" }}</p>
+        <p><strong>Total:</strong> R$ {{ pedido.total }}</p>
+        <p><strong>Status:</strong> {{ pedido.get_status_display }}</p>
+    </div>
+    
+    <h3>Itens do Pedido</h3>
+    <div class="pedido-itens">
+        {% for item in pedido.itens.all %}
+        <div class="pedido-item">
+            <img src="{{ item.produto.foto_produto_url }}" alt="{{ item.produto.nome_produto }}">
+            <div class="item-info">
+                <h4>{{ item.produto.nome_produto }}</h4>
+                <p>{{ item.quantidade }} × R$ {{ item.preco_unitario }}</p>
+            </div>
+            <div class="item-subtotal">
+                R$ {{ item.subtotal }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="pedido-acoes">
+        <a href="{% url 'order:lista_pedidos' %}" class="btn btn-primary">
+            Ver Meus Pedidos
+        </a>
+        <a href="{% url 'cardapio:lista_produtos' %}" class="btn btn-secondary">
+            Continuar Comprando
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+  <script src="{% static 'global/js/script.js' %}"></script>
+{% endblock main%}

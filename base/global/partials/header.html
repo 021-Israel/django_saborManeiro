@@ -13,7 +13,7 @@
       <li><a href="{% url 'galeria' %}">Galeria</a></li>
 
       <li class="menu_pedido">
-        <a href="{% url 'order' %}">Faça seu pedido</a>
+        <a href="{% url 'order:order' %}">Faça seu pedido</a>
       </li>
 
       {% if user.is_authenticated %}

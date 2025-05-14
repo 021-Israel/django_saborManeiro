@@ -1,78 +1,138 @@
 {% extends "global/base.html" %}
-
-
-{% block  main%}
-
 {% load static %}
+
+{% block main %}
 <link rel="stylesheet" href='{% static "global/css/order.css" %}'>
 
 <main>
-  
     <div class="container">
-      <!-- Categorias -->
-      <div class="categories">
-        <a href="?categoria=" class="category-btn active">Todos</a>
-        <a href="?categoria=LAN" class="category-btn">Lanches</a>
-        <a href="?categoria=PTP" class="category-btn">Pratos Principais</button>
-        <a href="?categoria=BEB" class="category-btn">Bebidas</button>
-        <a href="?categoria=SOB" class="category-btn">Sobremesas</button>
-        <a href="?categoria=COM" class="category-btn">Combos</button>
-      </div>
+        <!-- Categorias -->
+        <div class="categories">
+            <a href="?categoria=" class="category-btn active">Todos</a>
+            <a href="?categoria=LAN" class="category-btn">Lanches</a>
+            <a href="?categoria=PTP" class="category-btn">Pratos Principais</a>
+            <a href="?categoria=BEB" class="category-btn">Bebidas</a>
+            <a href="?categoria=SOB" class="category-btn">Sobremesas</a>
+            <a href="?categoria=COM" class="category-btn">Combos</a>
+        </div>
 
-
-      
-      <!-- Itens do Menu -->
-      <div class="menu-grid">
-        {% for produto in produtos %}
-        <!-- Item 1 -->
-        <div class="menu-item">
-          <img
-            src="{{ produto.foto_produto_url }}"
-            alt="{{ produto.nome_produto }}"
-            class="item-image"
-          />
-          <div class="item-info">
-            <h3 class="item-title">{{ produto.nome_produto }}</h3>
-            <p class="{{ produto.desc_produto }}">
-              {{ produto.desc_produto }}
-            </p>
-            <div class="item-footer">
-              <span class="item-price">{{produto.preco_produto}}</span>
-              <button class="add-to-cart">Adicionar</button>
+        <!-- Itens do Menu -->
+        <div class="menu-grid">
+            {% for produto in produtos %}
+            <div class="menu-item">
+                <img src="{{ produto.foto_produto_url }}" alt="{{ produto.nome_produto }}" class="item-image">
+                <div class="item-info">
+                    <h3 class="item-title">{{ produto.nome_produto }}</h3>
+                    <p class="item-description">{{ produto.desc_produto }}</p>
+                    <div class="item-footer">
+                        <span class="item-price">R$ {{ produto.preco_produto }}</span>
+                        <button class="add-to-cart" data-produto-id="{{ produto.id_produto }}">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
             </div>
-          </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        
-      </div>
-        
+    </div>
 
-    <!-- Carrinho de Compras -->
-    <div class="cart-container">
-      <div class="cart-btn">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-count">0</span>
-      </div>
+    <!-- Botão do Carrinho -->
+    <div class="cart-btn-container">
+        <button class="cart-btn" id="cartButton">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">{{ request.carrinho.total_itens|default:0 }}</span>
+        </button>
     </div>
+
+    <!-- Modal do Carrinho -->
     <div class="cart-modal" id="cartModal">
-      <div class="cart-modal-content">
-        <div class="cart-modal-header">
-          <h3>Seu Carrinho</h3>
-          <button class="close-modal">&times;</button>
+        <div class="cart-modal-content">
+            <div class="cart-modal-header">
+                <h3>Seu Carrinho</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="cart-items">
+                {% if request.carrinho.itens.all %}
+                    {% for item in request.carrinho.itens.all %}
+                    <div class="cart-item" data-item-id="{{ item.id }}">
+                        <img src="{{ item.produto.foto_produto_url }}" alt="{{ item.produto.nome_produto }}">
+                        <div class="cart-item-details">
+                            <h4>{{ item.produto.nome_produto }}</h4>
+                            <div class="cart-item-controls">
+                                <button class="decrease-qty" data-item-id="{{ item.id }}">-</button>
+                                <span class="item-qty">{{ item.quantidade }}</span>
+                                <button class="increase-qty" data-item-id="{{ item.id }}">+</button>
+                            </div>
+                        </div>
+                        <div class="cart-item-price">
+                            <span>R$ {{ item.subtotal }}</span>
+                            <button class="remove-item" data-item-id="{{ item.id }}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-cart-message">Seu carrinho está vazio</div>
+                {% endif %}
+            </div>
+            <div class="cart-summary">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span class="total-price">R$ {{ request.carrinho.total|default:"0.00" }}</span>
+                </div>
+                <a href="{% url 'order:finalizar_pedido' %}" class="checkout-btn">Finalizar Pedido</a>
+            </div>
         </div>
-        <div class="cart-items" id="cartItems">
-          <!-- Itens serão adicionados dinamicamente aqui -->
-          <div class="empty-cart-message">Seu carrinho está vazio</div>
-        </div>
-        <div class="cart-summary">
-          <div class="cart-total">
-            <span>Total:</span>
-            <span class="total-price">{{ produto.desc_produto }}</span>
-          </div>
-          <button class="checkout-btn">Finalizar Pedido</button>
-        </div>
-      </div>
     </div>
-  </main>
-  <script src="{% static 'global/js/script.js' %}"></script>
-{% endblock main%}
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Abrir/fechar modal
+    const cartButton = document.getElementById('cartButton');
+    const cartModal = document.getElementById('cartModal');
+    const closeModal = document.querySelector('.close-modal');
+    
+    cartButton.addEventListener('click', () => {
+        cartModal.style.display = 'block';
+    });
+    
+    closeModal.addEventListener('click', () => {
+        cartModal.style.display = 'none';
+    });
+
+    // Adicionar ao carrinho
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+            const produtoId = this.getAttribute('data-produto-id');
+            adicionarAoCarrinho(produtoId);
+        });
+    });
+
+    // Função AJAX para adicionar item
+    function adicionarAoCarrinho(produtoId) {
+        fetch("{% url 'order:adicionar_ao_carrinho' 0 %}".replace('0', produtoId), {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                // Atualiza contador
+                document.querySelector('.cart-count').textContent = data.total_itens;
+                // Recarrega o modal (simplificado - ideal seria atualizar via AJAX)
+                location.reload();
+            }
+        });
+    }
+
+    // Funções para remover/atualizar itens (similar à adicionar)
+});
+</script>
+
+<script src="{% static 'global/js/script.js' %}"></script>
+{% endblock main %}

@@ -1,5 +1,4 @@
 from django.db import models
-from djmoney.models.fields import MoneyField
 from django.core.validators import MinValueValidator
 from django.db.models import Case, When, Value, IntegerField
 from django.conf import settings
@@ -46,13 +45,8 @@ class Produto(models.Model):
         null=True,
         verbose_name="Descrição"
     )
-    preco_produto = MoneyField(
-        max_digits=14, 
-        decimal_places=2, 
-        default_currency='BRL',
-        validators=[MinValueValidator(0)],
-        verbose_name="Preço"
-    )
+    preco_produto = models.DecimalField( max_digits=10, decimal_places=2, verbose_name="Preço")
+
     disponivel = models.BooleanField(default=True, verbose_name="Disponível")
 
     objects = ProdutoManager()

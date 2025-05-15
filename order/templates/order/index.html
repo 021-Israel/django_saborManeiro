@@ -25,7 +25,7 @@
                     <h3 class="item-title">{{ produto.nome_produto }}</h3>
                     <p class="item-description">{{ produto.desc_produto }}</p>
                     <div class="item-footer">
-                        <span class="item-price">R$ {{ produto.preco_produto }}</span>
+                        <span class="item-price">{{ produto.preco_produto }}</span>
                         <button class="add-to-cart" data-produto-id="{{ produto.id_produto }}">
                             Adicionar ao Carrinho
                         </button>
@@ -36,101 +36,262 @@
         </div>
     </div>
 
-    <!-- Botão do Carrinho -->
-    <div class="cart-btn-container">
-        <button class="cart-btn" id="cartButton">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="cart-count">{{ request.carrinho.total_itens|default:0 }}</span>
-        </button>
-    </div>
+  <div class="cart-btn-container">
+    <button class="cart-btn" id="cartButton">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">{{ carrinho.total_itens|default:0 }}</span>
+    </button>
+</div>
 
-    <!-- Modal do Carrinho -->
-    <div class="cart-modal" id="cartModal">
-        <div class="cart-modal-content">
-            <div class="cart-modal-header">
-                <h3>Seu Carrinho</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="cart-items">
-                {% if request.carrinho.itens.all %}
-                    {% for item in request.carrinho.itens.all %}
-                    <div class="cart-item" data-item-id="{{ item.id }}">
-                        <img src="{{ item.produto.foto_produto_url }}" alt="{{ item.produto.nome_produto }}">
-                        <div class="cart-item-details">
-                            <h4>{{ item.produto.nome_produto }}</h4>
-                            <div class="cart-item-controls">
-                                <button class="decrease-qty" data-item-id="{{ item.id }}">-</button>
-                                <span class="item-qty">{{ item.quantidade }}</span>
-                                <button class="increase-qty" data-item-id="{{ item.id }}">+</button>
-                            </div>
-                        </div>
-                        <div class="cart-item-price">
-                            <span>R$ {{ item.subtotal }}</span>
-                            <button class="remove-item" data-item-id="{{ item.id }}">
-                                <i class="fas fa-trash"></i>
-                            </button>
+<!-- Modal do Carrinho -->
+<div class="cart-modal" id="cartModal">
+    <div class="cart-modal-content">
+        <div class="cart-modal-header">
+            <h3>Seu Carrinho</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="cart-items">
+            
+                {% for item in carrinho.itens.all %}
+                <div class="cart-item" data-item-id="{{ item.id }}">
+                    <img src="{{ item.produto.foto_produto_url }}" alt="{{ item.produto.nome_produto }}">
+                    <div class="cart-item-details">
+                        <h4>{{ item.produto.nome_produto }}</h4>
+                        <div class="cart-item-controls">
+                            <button class="decrease-qty" data-item-id="{{ item.id }}">-</button>
+                            <span class="item-qty">{{ item.quantidade }}</span>
+                            <button class="increase-qty" data-item-id="{{ item.id }}">+</button>
                         </div>
                     </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="empty-cart-message">Seu carrinho está vazio</div>
-                {% endif %}
-            </div>
-            <div class="cart-summary">
-                <div class="cart-total">
-                    <span>Total:</span>
-                    <span class="total-price">R$ {{ request.carrinho.total|default:"0.00" }}</span>
+                    <div class="cart-item-price">
+                        <span>R$ {{ item.subtotal|floatformat:2 }}</span>
+                        <button class="remove-item" data-item-id="{{ item.id }}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
                 </div>
-                <a href="{% url 'order:finalizar_pedido' %}" class="checkout-btn">Finalizar Pedido</a>
+                {% endfor %}
+           
+               
+            
+        </div>
+        <div class="cart-summary">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-price">R$ {{ carrinho.total|floatformat:2 }}</span>
             </div>
+            <a href="{% url 'order:finalizar_pedido' %}" class="checkout-btn">Finalizar Pedido</a>
         </div>
     </div>
+</div>
 </main>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Abrir/fechar modal
-    const cartButton = document.getElementById('cartButton');
+    // Elementos do DOM
     const cartModal = document.getElementById('cartModal');
+    const cartButton = document.getElementById('cartButton');
     const closeModal = document.querySelector('.close-modal');
-    
-    cartButton.addEventListener('click', () => {
-        cartModal.style.display = 'block';
-    });
-    
-    closeModal.addEventListener('click', () => {
-        cartModal.style.display = 'none';
-    });
 
-    // Adicionar ao carrinho
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', function() {
-            const produtoId = this.getAttribute('data-produto-id');
-            adicionarAoCarrinho(produtoId);
-        });
-    });
+    const cartBtn = document.querySelector(".cart-btn");
+    const cartCount = document.querySelector(".cart-count");
+    const cartItemsContainer = document.getElementById("cartItems");
+    const totalPrice = document.querySelector(".total-price");
+    
+    // Abrir/fechar modal
+    cartButton.addEventListener('click', () => cartModal.style.display = 'block');
+    closeModal.addEventListener('click', () => cartModal.style.display = 'none');
 
-    // Função AJAX para adicionar item
-    function adicionarAoCarrinho(produtoId) {
-        fetch("{% url 'order:adicionar_ao_carrinho' 0 %}".replace('0', produtoId), {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        })
+    // Função para atualizar o contador do carrinho
+    function atualizarContador(total) {
+        document.querySelector('.cart-count').textContent = total;
+    }
+
+    // Função para atualizar o modal do carrinho
+    async function atualizarModalCarrinho() {
+        try {
+            const response = await fetch('{% url "order:ver_carrinho" %}');
+            const html = await response.text();
+            
+            // Extrai apenas o conteúdo relevante
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            const newContent = tempDiv.querySelector('.table-responsive')?.innerHTML || 
+                              '<div class="empty-cart-message">Seu carrinho está vazio</div>';
+            
+            document.querySelector('.cart-items').innerHTML = newContent;
+            adicionarEventosAosBotoes();
+            
+            // Atualiza o total
+            const totalElement = tempDiv.querySelector('.cart-total strong');
+            if (totalElement) {
+                document.querySelector('.total-price').textContent = totalElement.textContent;
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar carrinho:', error);
+        }
+    }
+
+        function atualizarCarrinho() {
+        fetch("/carrinho/")
         .then(response => response.json())
         .then(data => {
-            if(data.success) {
-                // Atualiza contador
-                document.querySelector('.cart-count').textContent = data.total_itens;
-                // Recarrega o modal (simplificado - ideal seria atualizar via AJAX)
-                location.reload();
+            cartItemsContainer.innerHTML = "";
+            if (Object.keys(data.itens).length === 0) {
+                cartItemsContainer.innerHTML = "<div class='empty-cart-message'>Seu carrinho está vazio</div>";
+            } else {
+                for (let id in data.itens) {
+                    let item = data.itens[id];
+                    cartItemsContainer.innerHTML += `
+                        <div class="cart-item">
+                            <strong>${item.nome}</strong> - R$${item.preco.toFixed(2)} x ${item.quantidade}
+                            <button onclick="removerDoCarrinho('${id}')">Remover</button>
+                        </div>
+                    `;
+                }
             }
+            cartCount.textContent = data.total_itens;
+            totalPrice.textContent = `R$ ${data.total.toFixed(2)}`;
         });
     }
 
-    // Funções para remover/atualizar itens (similar à adicionar)
+    // Adicionar eventos aos botões dinâmicos
+    function adicionarEventosAosBotoes() {
+        // Botão adicionar ao carrinho
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const produtoId = this.getAttribute('data-produto-id');
+                adicionarAoCarrinho(produtoId);
+                atualizarCarrinho();
+            });
+        });
+
+
+        // Botão remover item
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', function() {
+                const itemId = this.getAttribute('data-item-id');
+                removerDoCarrinho(itemId);
+                atualizarCarrinho();
+            });
+        });
+
+        // Botão aumentar quantidade
+        document.querySelectorAll('.increase-qty').forEach(button => {
+            button.addEventListener('click', function() {
+                const itemId = this.getAttribute('data-item-id');
+                atualizarQuantidade(itemId, 1);
+                atualizarCarrinho();
+            });
+        });
+
+        // Botão diminuir quantidade
+        document.querySelectorAll('.decrease-qty').forEach(button => {
+            button.addEventListener('click', function() {
+                const itemId = this.getAttribute('data-item-id');
+                atualizarQuantidade(itemId, -1);
+                atualizarCarrinho();
+            });
+        });
+    }
+
+    // Função AJAX para adicionar item
+    async function adicionarAoCarrinho(produtoId) {
+        try {
+            const response = await fetch(`{% url 'order:adicionar_ao_carrinho' 0 %}`.replace('0', produtoId), {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({})
+            });
+            
+            const data = await response.json();
+            
+            if(data.success) {
+                atualizarContador(data.total_itens);
+                await atualizarModalCarrinho();
+                mostrarNotificacao(data.message, 'success');
+            } else {
+                mostrarNotificacao(data.message, 'error');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            mostrarNotificacao('Erro ao adicionar item', 'error');
+        }
+    }
+
+    // Função AJAX para remover item
+    async function removerDoCarrinho(itemId) {
+        try {
+            const response = await fetch(`{% url 'order:remover_do_carrinho' 0 %}`.replace('0', itemId), {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                },
+            });
+            
+            const data = await response.json();
+            
+            if(data.success) {
+                atualizarContador(data.total_itens);
+                await atualizarModalCarrinho();
+                mostrarNotificacao(data.message, 'success');
+            } else {
+                mostrarNotificacao(data.message, 'error');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            mostrarNotificacao('Erro ao remover item', 'error');
+        }
+    }
+
+    // Função AJAX para atualizar quantidade
+    async function atualizarQuantidade(itemId, delta) {
+        try {
+            // Primeiro obtém a quantidade atual
+            const itemElement = document.querySelector(`.cart-item[data-item-id="${itemId}"] .item-qty`);
+            const quantidadeAtual = parseInt(itemElement.textContent);
+            const novaQuantidade = quantidadeAtual + delta;
+            
+            if (novaQuantidade < 1) return;
+            
+            const response = await fetch(`{% url 'order:atualizar_carrinho' 0 %}`.replace('0', itemId), {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `quantidade=${novaQuantidade}`
+            });
+            
+            if (response.ok) {
+                await atualizarModalCarrinho();
+                mostrarNotificacao('Quantidade atualizada', 'success');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            mostrarNotificacao('Erro ao atualizar quantidade', 'error');
+        }
+    }
+
+    // Função para mostrar notificações
+    function mostrarNotificacao(mensagem, tipo) {
+        // Você pode substituir por um sistema de notificação mais sofisticado
+        const notificacao = document.createElement('div');
+        notificacao.className = `notificacao ${tipo}`;
+        notificacao.textContent = mensagem;
+        document.body.appendChild(notificacao);
+        
+        setTimeout(() => {
+            notificacao.remove();
+        }, 3000);
+    }
+
+    // Inicializa os eventos
+    adicionarEventosAosBotoes();
 });
 </script>
 

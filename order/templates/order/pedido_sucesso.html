@@ -1,4 +1,5 @@
 {% extends "global/base.html" %}
+{% load static %}
 
 {% block main %}
 <link rel="stylesheet" href='{% static "global/css/pedido_sucesso.css" %}'>
@@ -8,7 +9,7 @@
     <div class="pedido-info">
         <p><strong>Número do Pedido:</strong> #{{ pedido.id }}</p>
         <p><strong>Data:</strong> {{ pedido.data_pedido|date:"d/m/Y H:i" }}</p>
-        <p><strong>Total:</strong> R$ {{ pedido.total }}</p>
+        <p><strong>Total:</strong> R$ {{ pedido.total|floatformat:2 }}</p>
         <p><strong>Status:</strong> {{ pedido.get_status_display }}</p>
     </div>
     
@@ -19,25 +20,22 @@
             <img src="{{ item.produto.foto_produto_url }}" alt="{{ item.produto.nome_produto }}">
             <div class="item-info">
                 <h4>{{ item.produto.nome_produto }}</h4>
-                <p>{{ item.quantidade }} × R$ {{ item.preco_unitario }}</p>
+                <p>{{ item.quantidade }} × R$ {{ item.preco_unitario|floatformat:2 }}</p>
             </div>
             <div class="item-subtotal">
-                R$ {{ item.subtotal }}
+                R$ {{ item.subtotal|floatformat:2 }}
             </div>
         </div>
         {% endfor %}
     </div>
     
     <div class="pedido-acoes">
-        <a href="{% url 'order:lista_pedidos' %}" class="btn btn-primary">
-            Ver Meus Pedidos
+        <a href="{% url 'order:order' %}" class="btn btn-primary">
+            Voltar ao Cardápio
         </a>
-        <a href="{% url 'cardapio:lista_produtos' %}" class="btn btn-secondary">
-            Continuar Comprando
-        </a>
+        
     </div>
 </div>
-{% endblock %}
 
-  <script src="{% static 'global/js/script.js' %}"></script>
-{% endblock main%}
+<script src="{% static 'global/js/script.js' %}"></script>
+{% endblock main %}

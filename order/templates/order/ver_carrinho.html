@@ -1,0 +1,48 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block main %}
+<link rel="stylesheet" href='{% static "global/css/order.css" %}'>
+
+<div class="container mt-4">
+    <h2 class="mb-4">Seu Carrinho</h2>
+    
+    {% if carrinho.itens.all %}
+        <div class="table-responsive">
+            <table class="table">
+                <!-- Cabeçalho da tabela -->
+                <tbody>
+                    {% for item in carrinho.itens.all %}
+                    <tr class="cart-item" data-item-id="{{ item.id }}">
+                        <!-- Conteúdo do item -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                        <td colspan="2"><strong>R$ {{ carrinho.total|floatformat:2 }}</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'order:order' %}" class="btn btn-secondary">
+                Continuar Comprando
+            </a>
+            <a href="{% url 'order:finalizar_pedido' %}" class="btn btn-primary">
+                Finalizar Pedidodsadasda
+            </a>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            <i class="fas fa-shopping-cart fa-2x mb-3"></i>
+            <h4>Seu carrinho está vazio</h4>
+            <a href="{% url 'order:order' %}" class="btn btn-primary mt-3">
+                Ver Cardápio
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -6,7 +6,7 @@ from django.conf import settings
 from rest_framework import routers
 from order.views import ProdutoViewSet
 router = routers.DefaultRouter()
-router.register('order', ProdutoViewSet)
+router.register('carrinho', ProdutoViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

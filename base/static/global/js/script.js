@@ -131,19 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Finalizar pedido
-    checkoutBtn.addEventListener('click', function() {
-        if (cart.length > 0) {
-            alert('Pedido finalizado com sucesso! Total: ' + calculateTotal().toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}));
-            // Aqui você enviaria os dados para o backend
-            cart.length = 0;
-            updateCart();
-            cartModal.classList.remove('active');
-        } else {
-            alert('Adicione itens ao carrinho antes de finalizar!');
-        }
-    });
-    
     // Atualizar carrinho
     function updateCart() {
         // Atualizar contador
@@ -154,29 +141,49 @@ document.addEventListener('DOMContentLoaded', function() {
         if (cart.length === 0) {
             cartItemsContainer.innerHTML = '<div class="empty-cart-message">Seu carrinho está vazio</div>';
         } else {
-            cartItemsContainer.innerHTML = '';
             cart.forEach(item => {
-                const cartItemElement = document.createElement('div');
-                cartItemElement.className = 'cart-item';
-                cartItemElement.innerHTML = `
-                    <div class="cart-item-info">
-                        <div class="cart-item-title">${item.title}</div>
-                        <div class="cart-item-price">${item.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</div>
-                        <div class="cart-item-quantity">
-                            <button class="quantity-btn minus" data-id="${item.id}">-</button>
-                            <span class="quantity-value">${item.quantity}</span>
-                            <button class="quantity-btn plus" data-id="${item.id}">+</button>
-                            <button class="remove-item" data-id="${item.id}">Remover</button>
+                let cartItemElement = document.getElementById(`cart-item-${item.id}`);
+                
+                // Se o item não existir no DOM, crie-o
+                if (!cartItemElement) {
+                    cartItemElement = document.createElement('div');
+                    cartItemElement.id = `cart-item-${item.id}`;
+                    cartItemElement.className = 'cart-item';
+                    
+                    const cartItemHTML = `
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.title}</div>
+                            <div class="cart-item-price">${item.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</div>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                                <span class="quantity-value">${item.quantity}</span>
+                                <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                                <button class="remove-item" data-id="${item.id}">Remover</button>
+                            </div>
                         </div>
-                    </div>
-                `;
-                cartItemsContainer.appendChild(cartItemElement);
+                    `;
+                    cartItemElement.innerHTML = cartItemHTML;
+                    cartItemsContainer.appendChild(cartItemElement);
+                }
+
+                // Atualiza a quantidade do item se já estiver no DOM
+                cartItemElement.querySelector('.quantity-value').textContent = item.quantity;
+                cartItemElement.querySelector('.cart-item-price').textContent = item.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            });
+
+            // Remover itens que não estão mais no carrinho
+            const allItemElements = cartItemsContainer.querySelectorAll('.cart-item');
+            allItemElements.forEach(element => {
+                const itemId = element.id.replace('cart-item-', '');
+                if (!cart.find(item => item.id === itemId)) {
+                    element.remove();
+                }
             });
         }
         
         // Atualizar total
         totalPriceElement.textContent = calculateTotal().toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-        
+
         // Adicionar eventos aos botões de quantidade
         document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -191,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateCart();
             });
         });
-        
+
         document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
             btn.addEventListener('click', function() {
                 const itemId = this.dataset.id;
@@ -200,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateCart();
             });
         });
-        
+
         document.querySelectorAll('.remove-item').forEach(btn => {
             btn.addEventListener('click', function() {
                 const itemId = this.dataset.id;
@@ -216,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     }
 });
+
 
 
 

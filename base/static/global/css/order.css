@@ -22,6 +22,9 @@ body {
 .categories {
   display: flex;
   overflow-x: auto;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
   margin-bottom: 20px;
   padding-bottom: 10px;
   background-color: white;

@@ -64,9 +64,6 @@
 
 
 
-
-
-
 document.addEventListener('DOMContentLoaded', function() {
     // Variáveis globais
     const cart = [];
